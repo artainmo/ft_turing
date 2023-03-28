@@ -13,4 +13,8 @@ make
 ```
 
 ## Documentation
-[artainmo - OCaml](https://github.com/artainmo/general-programming/tree/main/languages/OCaml)
+[artainmo - OCaml](https://github.com/artainmo/general-programming/tree/main/languages/OCaml)<br>
+[Turing Machines Explained - Computerphile](https://www.youtube.com/watch?v=dNRDvLACg5Q)<br>
+[Turing Machine Primer - Computerphile](https://www.youtube.com/watch?v=DILF8usqp7M)<br>
+[Busy Beaver Turing Machines - Computerphile](https://www.youtube.com/watch?v=CE8UhcyJS0I)<br>
+[Turing Complete - Computerphile](https://www.youtube.com/watch?v=RPQD7-AOjMI)
