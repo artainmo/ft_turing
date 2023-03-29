@@ -5,9 +5,13 @@ In OCaml using functional-programming I implemented a single headed and single t
 The Turing machine is the first mathematical and algorithmic model behind a general purpose computer.
 
 ## Run
-1. To setup the appropriate environment use `make env`. We expect you to be on mac with 'brew' available.
-2. Now compile and create the program executable named 'ft_turing' with `make`.
-3. To run the Turing machine launch the executbale with as parameter an appropriate json file. For example like this `./ft_turing machine_0.json`.
+1. To install all dependencies use `make env`. We expect you to be on mac with 'brew' available.
+2. Now compile and create the program executable named 'ft_turing'. Use `make` to compile to byte-code with the 'ocamlc' compilar or use `make opt` to compile to machine-code with 'ocamlopt'.
+3. To run the Turing machine launch the executbale with as first parameter an appropriate json file and as second input. For example like this `./ft_turing machines/unary_sub.json "111-11"`.
+
+## Other commands
+Tu clean the compilation file use `make fclean`.<br>
+To clean and compile back use `make re` or `make re_opt`.
 
 ## Documentation
 [artainmo - OCaml](https://github.com/artainmo/general-programming/tree/main/languages/OCaml)<br>
