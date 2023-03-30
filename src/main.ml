@@ -24,17 +24,28 @@ let get_json file =
         | Sys_error message when message = (file ^ ": No such file or directory") -> 
                 Printf.printf "File named '%s' not found\n" file ; exit 0
 
-let json = get_json Sys.argv.(1)
+let json = 
+    try
+        get_json Sys.argv.(1)
+    with
+        | _ -> Printf.printf "Error '%s' is not a valid json file\n" Sys.argv.(1) ; exit 0
+let input = Sys.argv.(2)
 
-let name = json |> Yojson.Basic.Util.member "name" |> Yojson.Basic.Util.to_string
-let alphabet = json |> Yojson.Basic.Util.member "alphabet" |> Yojson.Basic.Util.to_list
-let blank = json |> Yojson.Basic.Util.member "blank" |> Yojson.Basic.Util.to_string
-let states = json |> Yojson.Basic.Util.member "states" |> Yojson.Basic.Util.to_list
-let initial = json |> Yojson.Basic.Util.member "initial" |> Yojson.Basic.Util.to_string
-let finals = json |> Yojson.Basic.Util.member "finals" |> Yojson.Basic.Util.to_list
-let transitions = json |> Yojson.Basic.Util.member "transitions" |> Yojson.Basic.Util.to_assoc
+let parse_json json label conversion_function =
+    try
+        json |> Yojson.Basic.Util.member label |> conversion_function
+    with
+        | _ -> Printf.printf "Error parsing machine %s from '%s'" label Sys.argv.(1) ; exit 0
 
+let name = parse_json json "name" Yojson.Basic.Util.to_string
+let alphabet = parse_json json "alphabet" Yojson.Basic.Util.to_list
+let blank = parse_json json "blank" Yojson.Basic.Util.to_string
+let states = parse_json json "states" Yojson.Basic.Util.to_list
+let initial = parse_json json "initial" Yojson.Basic.Util.to_string
+let finals = parse_json json "finals" Yojson.Basic.Util.to_list
+let transitions = parse_json json "transitions" Yojson.Basic.Util.to_assoc
 
+let () = Printf.printf "input: %s\n" input
 let () = Printf.printf "name: %s\n" name
 let () = Printf.printf "alphabet:\n"
 let () = List.iter (fun x -> print_endline ("  " ^ Yojson.Basic.to_string x)) alphabet
@@ -48,10 +59,10 @@ let () = Printf.printf "transitions:\n"
 let () = List.iter (fun (state, rules) -> 
     Printf.printf "  state %s:\n" state;
     List.iter (fun rule ->
-        let read = rule |> Yojson.Basic.Util.member "read" |> Yojson.Basic.Util.to_string in
-        let to_state = rule |> Yojson.Basic.Util.member "to_state" |> Yojson.Basic.Util.to_string in
-        let write = rule |> Yojson.Basic.Util.member "write" |> Yojson.Basic.Util.to_string in
-        let action = rule |> Yojson.Basic.Util.member "action" |> Yojson.Basic.Util.to_string in
+        let read = parse_json rule "read" Yojson.Basic.Util.to_string in
+        let to_state = parse_json rule "to_state" Yojson.Basic.Util.to_string in
+        let write = parse_json rule "write" Yojson.Basic.Util.to_string in
+        let action = parse_json rule "action" Yojson.Basic.Util.to_string in
         Printf.printf "    read: %s, to_state: %s, write: %s, action: %s\n" read to_state write action
     ) (rules |> Yojson.Basic.Util.to_list)
 ) transitions
