@@ -1,3 +1,5 @@
+open Yojson;;
+
 if Array.length Sys.argv < 2 || Array.length Sys.argv > 3 then begin
     Printf.printf "Wrong number of command line arguments. Use '-h' for help.\n" ; 
     exit 0

@@ -10,16 +10,16 @@ OBJECTS_OPT = $(SRCS:.ml=.cmx)
 all: $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
-	$(COMPILER) -o $@ $^
+	ocamlfind $(COMPILER) -o $@ -linkpkg -package yojson $^
 
 %.cmo: %.ml
-	$(COMPILER) -c $<
+	ocamlfind $(COMPILER) -c -package yojson $<
 
 opt: $(OBJECTS_OPT)
-	$(COMPILER_OPT) -o $(EXECUTABLE) $^
+	ocamlfind $(COMPILER_OPT) -o $(EXECUTABLE) -linkpkg -package yojson $^
 
 %.cmx: %.ml
-	$(COMPILER_OPT) -c $<
+	ocamlfind $(COMPILER_OPT) -c -package yojson $<
 
 re: fclean all
 
@@ -32,4 +32,6 @@ clean:
 	rm -rf $(SRCDIR)/*.cm[iox] $(SRCDIR)/*.o
 
 env:
-	chmod +x env.sh && ./env.sh
+	opam --version || (brew install opam && opam init --yes --shell-setup)
+	ocamlfind --version || opam install ocamlfind --yes
+	ocamlfind list | grep "yojson" || opam install yojson --yes
