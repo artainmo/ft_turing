@@ -1,6 +1,4 @@
-open Yojson;;
-
-if Array.length Sys.argv < 2 || Array.length Sys.argv > 3 then begin
+(*if Array.length Sys.argv < 2 || Array.length Sys.argv > 3 then begin
     Printf.printf "Wrong number of command line arguments. Use '-h' for help.\n" ; 
     exit 0
 end else if Array.length Sys.argv = 2 && (Sys.argv.(1) = "--help" || Sys.argv.(1) = "-h") then begin
@@ -18,3 +16,13 @@ end else if Array.length Sys.argv = 2 then begin
     Printf.printf "Wrong argument. Use '-h' for help.\n" ; 
     exit 0
 end
+
+let get_json file = 
+    try 
+        Yojson.Basic.from_file file
+    with 
+        | Sys_error message when message = (file ^ ": No such file or directory") -> 
+                Printf.printf "File named '%s' not found\n" file ; exit 0
+
+let json = get_json Sys.argv.(1) in let name = json |> member "name" |> to_string in Printf.print "%s" name
+*)
