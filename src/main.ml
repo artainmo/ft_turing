@@ -97,6 +97,16 @@ if String.contains input (String.get blank 0) then begin
     exit 0
 end;;
 
+let verify_input_in_alphabet input alphabet = 
+    String.for_all (fun c ->
+        List.mem (String.make 1 c) alphabet
+    ) input;;
+
+if verify_input_in_alphabet input alphabet = false then begin
+    Printf.fprintf stderr "ERROR: Not all input characters are part of alphabet.\n";
+    exit 0
+end;;
+
 if List.mem initial states = false then begin
     Printf.fprintf stderr "ERROR: The initial state is not part of states.\n";
     exit 0
@@ -182,3 +192,6 @@ let () = List.iter (fun (state, rules) ->
         Printf.printf "    read: %s, to_state: %s, write: %s, action: %s\n" read to_state write action
     ) rules
 ) transitions
+
+(* TURING MACHINE *)
+
