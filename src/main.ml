@@ -70,108 +70,119 @@ let verify_states_in_transitions_or_finals states transitions finals =
     let transitions_states = List.map (fun (state, rules) -> state) transitions in
     List.for_all (fun state ->
         List.mem state transitions_states || List.mem state finals
-    ) states;;
+    ) states
 
-if verify_states_in_transitions_or_finals states transitions finals = false then begin
-    Printf.fprintf stderr "ERROR: Not all states are described in transitions or finals.\n";
-    exit 0
-end
+let () =
+    if verify_states_in_transitions_or_finals states transitions finals = false then begin
+        Printf.fprintf stderr "ERROR: Not all states are described in transitions or finals.\n";
+        exit 0
+    end
 
 let verify_alphabet_single_char alphabet =
     List.for_all(fun item ->
         String.length item = 1
-    ) alphabet;;
+    ) alphabet
 
-if verify_alphabet_single_char alphabet = false then begin
-    Printf.fprintf stderr "ERROR: Not all alphabet values consist of a single character.\n";
-    exit 0
-end;;
+let () =
+    if verify_alphabet_single_char alphabet = false then begin
+        Printf.fprintf stderr "ERROR: Not all alphabet values consist of a single character.\n";
+        exit 0
+    end
 
-if List.mem blank alphabet = false then begin
-    Printf.fprintf stderr "ERROR: Blank character is not part of alphabet.\n";
-    exit 0
-end;;
+let () =
+    if List.mem blank alphabet = false then begin
+        Printf.fprintf stderr "ERROR: Blank character is not part of alphabet.\n";
+        exit 0
+    end
 
 let string_to_char s =
-    String.get s 0;;
+    String.get s 0
 
-if String.contains input (string_to_char blank) then begin
-    Printf.fprintf stderr "ERROR: Input contains the blank character.\n";
-    exit 0
-end;;
+let () =
+    if String.contains input (string_to_char blank) then begin
+        Printf.fprintf stderr "ERROR: Input contains the blank character.\n";
+        exit 0
+    end
 
 let verify_input_in_alphabet input alphabet =
     String.for_all (fun c ->
         List.mem (String.make 1 c) alphabet
-    ) input;;
+    ) input
 
-if verify_input_in_alphabet input alphabet = false then begin
-    Printf.fprintf stderr "ERROR: Not all input characters are part of alphabet.\n";
-    exit 0
-end;;
+let () =
+    if verify_input_in_alphabet input alphabet = false then begin
+        Printf.fprintf stderr "ERROR: Not all input characters are part of alphabet.\n";
+        exit 0
+    end
 
-if List.mem initial states = false then begin
-    Printf.fprintf stderr "ERROR: The initial state is not part of states.\n";
-    exit 0
-end
+let () =
+    if List.mem initial states = false then begin
+        Printf.fprintf stderr "ERROR: The initial state is not part of states.\n";
+        exit 0
+    end
 
 let verify_finals_in_states finals states =
     List.for_all (fun final ->
         List.mem final states
-    ) finals;;
+    ) finals
 
-if verify_finals_in_states finals states = false then begin
-    Printf.fprintf stderr "ERROR: Not all finals are in states.\n";
-    exit 0
-end
+let () =
+  if verify_finals_in_states finals states = false then begin
+      Printf.fprintf stderr "ERROR: Not all finals are in states.\n";
+      exit 0
+  end
 
 let verify_transitionToState_in_states transitions states =
     let _transitionToStates = List.map (fun(state, rules)-> List.map(fun(rule)-> rule.to_state) rules) transitions in
     let transitionToStates = List.concat _transitionToStates in
     List.for_all (fun to_state ->
         List.mem to_state states
-    ) transitionToStates;;
+    ) transitionToStates
 
-if verify_transitionToState_in_states transitions states = false then begin
-    Printf.fprintf stderr "ERROR: In transitions not all 'to_state' values exist in states.\n";
-    exit 0
-end
+let () =
+  if verify_transitionToState_in_states transitions states = false then begin
+      Printf.fprintf stderr "ERROR: In transitions not all 'to_state' values exist in states.\n";
+      exit 0
+  end
 
 let verify_transitionWrite_in_alphabet transitions alphabet =
     let _transitionWrites = List.map (fun(state, rules)-> List.map(fun(rule)-> rule.write) rules) transitions in
     let transitionWrites = List.concat _transitionWrites in
     List.for_all (fun write ->
         List.mem write alphabet
-    ) transitionWrites;;
+    ) transitionWrites
 
-if verify_transitionWrite_in_alphabet transitions alphabet = false then begin
-    Printf.fprintf stderr "ERROR: In transitions not all 'write' values exist in alphabet.\n";
-    exit 0
-end
+let () =
+    if verify_transitionWrite_in_alphabet transitions alphabet = false then begin
+        Printf.fprintf stderr "ERROR: In transitions not all 'write' values exist in alphabet.\n";
+        exit 0
+    end
 
 let verify_transitionRead_in_alphabet transitions alphabet =
     let _transitionReads = List.map (fun(state, rules)-> List.map(fun(rule)-> rule.read) rules) transitions in
     let transitionReads = List.concat _transitionReads in
     List.for_all (fun read ->
         List.mem read alphabet
-    ) transitionReads;;
+    ) transitionReads
 
-if verify_transitionRead_in_alphabet transitions alphabet = false then begin
-    Printf.fprintf stderr "ERROR: In transitions not all 'read' values exist in alphabet.\n";
-    exit 0
-end
+let () =
+    if verify_transitionRead_in_alphabet transitions alphabet = false then begin
+        Printf.fprintf stderr "ERROR: In transitions not all 'read' values exist in alphabet.\n";
+        exit 0
+    end
 
 let verify_transitionAction transitions =
     let _transitionActions = List.map (fun(state, rules)-> List.map(fun(rule)-> rule.action) rules) transitions in
     let transitionActions = List.concat _transitionActions in
     List.for_all (fun action ->
         List.mem action ["RIGHT";"LEFT"]
-    ) transitionActions;;
+    ) transitionActions
 
-if verify_transitionAction transitions = false then begin
-    Printf.fprintf stderr "ERROR: In transitions not all 'action' values equal to RIGHT or LEFT.\n";
-    exit 0
-end
+let () =
+  if verify_transitionAction transitions = false then begin
+      Printf.fprintf stderr "ERROR: In transitions not all 'action' values equal to RIGHT or LEFT.\n";
+      exit 0
+  end
 
 (* PRINT ALL THE PARSED VALUES *)
 let () = Printf.printf "************************\n"
@@ -215,12 +226,12 @@ let tape = (String.make tape_half_size (string_to_char blank)) ^ input ^ (String
 let head = tape_half_size
 
 let next_head_position tape head rule =
-    if rule.action = "RIGHT" then 
+    if rule.action = "RIGHT" then
         if head + 1 > String.length tape - 1 then begin
-            Printf.fprintf stderr "ERROR: Trying to move head at out of bound index.\n"; 
+            Printf.fprintf stderr "ERROR: Trying to move head at out of bound index.\n";
             exit 0
-        end else head + 1 
-    else 
+        end else head + 1
+    else
         if head - 1 < 0 then begin
             Printf.fprintf stderr "ERROR: Trying to move head at out of bound index.\n";
             exit 0;
