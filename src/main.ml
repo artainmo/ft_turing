@@ -174,16 +174,24 @@ if verify_transitionAction transitions = false then begin
 end
 
 (* PRINT ALL THE PARSED VALUES *)
-let () = Printf.printf "input: %s\n" input
-let () = Printf.printf "name: %s\n" name
-let () = Printf.printf "alphabet:\n"
-let () = List.iter (fun x -> print_endline ("  " ^ x)) alphabet
+let () = Printf.printf "************************\n"
+let () = Printf.printf "VISUALIZE PROGRAM VALUES\n"
+let () = Printf.printf "************************\n"
+
+let () = Printf.printf "machine name: %s\n" name
+let () = Printf.printf "machine input: %s\n\n" input
+
+let () = Printf.printf "alphabet:"
+let () = List.iter (fun x -> print_string ("  " ^ x)) alphabet
+let () = Printf.printf "\n"
 let () = Printf.printf "blank: %s\n" blank
-let () = Printf.printf "states:\n"
-let () = List.iter (fun x -> print_endline ("  " ^ x)) states
+let () = Printf.printf "states:"
+let () = List.iter (fun x -> print_string ("  " ^ x)) states
+let () = Printf.printf "\n"
 let () = Printf.printf "initial: %s\n" initial
-let () = Printf.printf "finals:\n"
-let () = List.iter (fun x -> print_endline ("  " ^ x)) finals
+let () = Printf.printf "finals:"
+let () = List.iter (fun x -> print_string ("  " ^ x)) finals
+let () = Printf.printf "\n"
 let () = Printf.printf "transitions:\n"
 let () = List.iter (fun (state, rules) ->
     Printf.printf "  state %s:\n" state;
@@ -197,8 +205,12 @@ let () = List.iter (fun (state, rules) ->
 ) transitions
 
 (* TURING MACHINE *)
+let () = Printf.printf "\n******************\n"
+let () = Printf.printf "RUN TURING MACHINE\n"
+let () = Printf.printf "******************\n"
+
 let tape_half_size = 1000
-let tape_display_half_size = 20
+let tape_display_half_size = 15
 let tape = (String.make tape_half_size (string_to_char blank)) ^ input ^ (String.make tape_half_size (string_to_char blank))
 let head = tape_half_size
 
@@ -207,16 +219,16 @@ let next_head_position tape head rule =
         if head + 1 > String.length tape - 1 then begin
             Printf.fprintf stderr "ERROR: Trying to move head at out of bound index.\n"; 
             exit 0
-        end else 1 
+        end else head + 1 
     else 
         if head - 1 < 0 then begin
             Printf.fprintf stderr "ERROR: Trying to move head at out of bound index.\n";
             exit 0;
-        end else -1
+        end else head - 1
 
 let find_state rule_to_state =
     if List.mem rule_to_state finals = true then begin
-        Printf.printf "END: Next state (%s) is final state.\n" rule_to_state;
+        Printf.printf "\nEND: Next state (%s) is part of final states.\n" rule_to_state;
         exit 0
     end else
         List.find(fun(state,rules) -> rule_to_state = state) transitions
@@ -237,26 +249,20 @@ let update_char_at_index str id new_char =
 let write_to_tape tape head rule =
     update_char_at_index tape head (string_to_char rule.write)
 
-let display_tape tape head =
-    Printf.printf "%s\n" ((String.make (head - tape_half_size + tape_display_half_size + 1) ' ') ^ "⦡");
-    Printf.printf "[%s]\n" (String.sub tape (head - tape_display_half_size) ((String.length input) + (2 * tape_display_half_size)))
+let display_tape tape head state rule =
+    let pos = if head - tape_display_half_size < 0 then 0 else head - tape_display_half_size in
+    let len = String.length input + (2 * tape_display_half_size) in
+    let display = String.sub tape pos len in
+    let () = Printf.printf "%s (%d)\n" ((String.make (tape_display_half_size + 1) ' ') ^ "⦡") head in
+    Printf.printf "[%s] (%s, %s) -> (%s, %s, %s)\n" display (fst state) rule.read rule.to_state rule.write rule.action
 
-let rec looping_machine tape head rule =
-    let () = Printf.printf "START\n" in
-    (*display_tape tape head;*)
-    let () = Printf.printf "DEBUG0\n" in
+let rec looping_machine tape head state stop =
+    if stop = infinity then exit 0; (* Indicate the number of iterations you want to do and thus display. Set it to infinity to deactivate *)
+    let rule = find_rule tape head (snd state) in
+    let () = display_tape tape head state rule in
     let new_tape = write_to_tape tape head rule in
-    let () = Printf.printf "DEBUG\n" in
     let new_head = next_head_position new_tape head rule in
-    let () = Printf.printf "DEBUG1\n" in
     let new_state = find_state rule.to_state in
-    let () = Printf.printf "DEBUG2\n" in
-    let new_rule = find_rule new_tape new_head (snd new_state) in
-    let () = Printf.printf "DEBUG3\n" in
-    looping_machine new_tape new_head new_rule
+    looping_machine new_tape new_head new_state (stop +. 1.0)
 
-let find_first_rule =
-    let state = find_state initial in
-    find_rule tape head (snd state)
-
-let () = looping_machine tape head find_first_rule
+let () = looping_machine tape head (find_state initial) 0.0
