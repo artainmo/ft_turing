@@ -10,16 +10,16 @@ OBJECTS_OPT = $(SRCS:.ml=.cmx)
 all: $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
-	ocamlfind $(COMPILER) -o $@ -thread -linkpkg -package yojson,unix,threads $^
+	ocamlfind $(COMPILER) -o $@ -linkpkg -package yojson $^
 
 %.cmo: %.ml
-	ocamlfind $(COMPILER) -c -thread -package yojson,unix,threads $<
+	ocamlfind $(COMPILER) -c -package yojson $<
 
 opt: $(OBJECTS_OPT)
-	ocamlfind $(COMPILER_OPT) -o $(EXECUTABLE) -thread -linkpkg -package yojson,unix,threads $^
+	ocamlfind $(COMPILER_OPT) -o $(EXECUTABLE) -linkpkg -package yojson $^
 
 %.cmx: %.ml
-	ocamlfind $(COMPILER_OPT) -c -thread -package yojson,unix,threads $<
+	ocamlfind $(COMPILER_OPT) -c -package yojson $<
 
 re: fclean all
 
