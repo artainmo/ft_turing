@@ -19,3 +19,4 @@ To clean and compile back use `make re` or `make re_opt`.
 [Turing Machine Primer - Computerphile](https://www.youtube.com/watch?v=DILF8usqp7M)<br>
 [Busy Beaver Turing Machines - Computerphile](https://www.youtube.com/watch?v=CE8UhcyJS0I)<br>
 [Turing Complete - Computerphile](https://www.youtube.com/watch?v=RPQD7-AOjMI)
+[Turing Machines - How Computer Science Was Created By Accident](https://www.youtube.com/watch?v=PLVCscCY4xI)
