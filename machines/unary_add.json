@@ -2,7 +2,7 @@
 	"name" : "unary_sub",
 	"alphabet": [ "1", ".", "+", "=" ],
 	"blank" : ".",
-	"states" : [ "scanright", "scanleft", "HALT" ],
+	"states" : [ "scanright", "scanleft", "addblank", "HALT" ],
 	"initial" : "scanright",
 	"finals" : [ "HALT" ],
 
