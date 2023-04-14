@@ -2,7 +2,7 @@
 	"name" : "palindrome_or_not",
 	"alphabet": [ "1", "0", "." , "y", "n"],
 	"blank" : ".",
-	"states" : [ "scanright", "scanleft", "first0", "last0", "first1", "last1", "check0L", "check0R", "check1L", "check1R", "HALT" ],
+	"states" : [ "scanright", "scanleft", "first0", "last0", "first1", "last1", "check0L", "check0R", "check1L", "check1R", "HALT", "skipend" ],
 	"initial" : "scanright",
 	"finals" : [ "HALT" ],
 
