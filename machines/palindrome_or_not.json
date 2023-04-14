@@ -33,7 +33,7 @@
 		],
 		"check1R" : [
 			{ "read" : "1", "to_state": "scanright", "write": ".", "action": "RIGHT"},
-			{ "read" : "0", "to_state": "skipend", "write": "n", "action": "RIGHT"},
+			{ "read" : "0", "to_state": "skipend", "write": ".", "action": "RIGHT"},
 			{ "read" : ".", "to_state": "HALT", "write": "y", "action": "RIGHT"}
 		],
 		"last0": [
@@ -53,7 +53,7 @@
 		],
 		"check0R" : [
 			{ "read" : "0", "to_state": "scanright", "write": ".", "action": "RIGHT"},
-			{ "read" : "1", "to_state": "skipend", "write": "n", "action": "RIGHT"},
+			{ "read" : "1", "to_state": "skipend", "write": ".", "action": "RIGHT"},
 			{ "read" : ".", "to_state": "HALT", "write": "y", "action": "RIGHT"}
 		],
 		"skipend" : [

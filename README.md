@@ -13,6 +13,12 @@ The Turing machine is the first mathematical and algorithmic model behind a gene
 Tu clean the compilation file use `make fclean`.<br>
 To clean and compile back use `make re` or `make re_opt`.
 
+## Tests
+1. ./ft_turing machines/unary_sub.json "111-11=" (should equal "1")
+2. ./ft_turing machines/unary_add.json "11+11111=" (should equal "1111111")
+3. ./ft_turing machines/palindrome_or_not.json 11011 (should equal "y")
+4. ./ft_turing machines/palindrome_or_not.json 1011 (should equal "n")
+
 ## Documentation
 [artainmo - OCaml](https://github.com/artainmo/general-programming/tree/main/languages/OCaml)<br>
 [Turing Machines Explained - Computerphile](https://www.youtube.com/watch?v=dNRDvLACg5Q)<br>

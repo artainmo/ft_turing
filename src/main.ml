@@ -225,6 +225,18 @@ let tape_display_half_size = 15
 let tape = (String.make tape_half_size (string_to_char blank)) ^ input ^ (String.make tape_half_size (string_to_char blank))
 let head = tape_half_size
 
+let tape_display tape head = 
+    let pos = if head - tape_display_half_size < 0 then 0 else head - tape_display_half_size in
+    let len = String.length input + (2 * tape_display_half_size) in
+    let display = String.sub tape pos len in
+    let () = Printf.printf "%s (%d)\n" 
+                ((String.make (tape_display_half_size + 1) ' ') ^ "⦡") head in
+    Printf.printf "[%s] " display
+
+let display_tape tape head state rule =
+    tape_display tape head;
+     Printf.printf "(%s, %s) -> (%s, %s, %s)\n" (fst state) rule.read rule.to_state rule.write rule.action
+
 let next_head_position tape head rule =
     if rule.action = "RIGHT" then
         if head + 1 > String.length tape - 1 then begin
@@ -237,9 +249,11 @@ let next_head_position tape head rule =
             exit 0;
         end else head - 1
 
-let find_state rule_to_state =
+let find_state rule_to_state tape head =
     if List.mem rule_to_state finals = true then begin
-        Printf.printf "\nEND: Next state (%s) is part of final states.\n" rule_to_state;
+        Printf.printf "\n";
+        tape_display tape head;
+        Printf.printf "-> END: Next state (%s) was part of final states.\n\n" rule_to_state;
         exit 0
     end else
         List.find(fun(state,rules) -> rule_to_state = state) transitions
@@ -260,20 +274,13 @@ let update_char_at_index str id new_char =
 let write_to_tape tape head rule =
     update_char_at_index tape head (string_to_char rule.write)
 
-let display_tape tape head state rule =
-    let pos = if head - tape_display_half_size < 0 then 0 else head - tape_display_half_size in
-    let len = String.length input + (2 * tape_display_half_size) in
-    let display = String.sub tape pos len in
-    let () = Printf.printf "%s (%d)\n" ((String.make (tape_display_half_size + 1) ' ') ^ "⦡") head in
-    Printf.printf "[%s] (%s, %s) -> (%s, %s, %s)\n" display (fst state) rule.read rule.to_state rule.write rule.action
-
 let rec looping_machine tape head state stop =
     if stop = infinity then exit 0; (* Indicate the number of iterations you want to do and thus display. Set it to infinity to deactivate *)
     let rule = find_rule tape head (snd state) in
     let () = display_tape tape head state rule in
     let new_tape = write_to_tape tape head rule in
     let new_head = next_head_position new_tape head rule in
-    let new_state = find_state rule.to_state in
+    let new_state = find_state rule.to_state new_tape new_head in
     looping_machine new_tape new_head new_state (stop +. 1.0)
 
-let () = looping_machine tape head (find_state initial) 0.0
+let () = looping_machine tape head (find_state initial tape head) 0.0
