@@ -12,26 +12,26 @@
 			{ "read" : "1", "to_state": "only1", "write": "1", "action": "RIGHT"},
 			{ "read" : "0", "to_state": "only0", "write": "0", "action": "RIGHT"}
 		],
-        "only0": [
-            { "read" : "0", "to_state": "only0", "write": "0", "action": "RIGHT"},
-            { "read" : "1", "to_state": "nextafter0", "write": "1", "action": "RIGHT"},
-            { "read" : ".", "to_state": "HALT", "write": "n", "action": "RIGHT"}
-        ],
-        "nextafter0": [
-            { "read" : "1", "to_state": "nextafter0", "write": "1", "action": "RIGHT"},
-            { "read" : "0", "to_state": "skipend", "write": "0", "action": "RIGHT"},
-            { "read" : ".", "to_state": "HALT", "write": "y", "action": "RIGHT"}
-        ],
-        "only1": [
-            { "read" : "1", "to_state": "only1", "write": "1", "action": "RIGHT"},
-            { "read" : "0", "to_state": "nextafter1", "write": "0", "action": "RIGHT"},
-            { "read" : ".", "to_state": "HALT", "write": "n", "action": "RIGHT"}
-        ],
-        "nextafter1": [
-            { "read" : "0", "to_state": "nextafter1", "write": "0", "action": "RIGHT"},
-            { "read" : "1", "to_state": "skipend", "write": "1", "action": "RIGHT"},
-            { "read" : ".", "to_state": "HALT", "write": "y", "action": "RIGHT"}
-        ],
+    "only0": [
+    	{ "read" : "0", "to_state": "only0", "write": "0", "action": "RIGHT"},
+      { "read" : "1", "to_state": "nextafter0", "write": "1", "action": "RIGHT"},
+      { "read" : ".", "to_state": "HALT", "write": "n", "action": "RIGHT"}
+    ],
+    "nextafter0": [
+    	{ "read" : "1", "to_state": "nextafter0", "write": "1", "action": "RIGHT"},
+      { "read" : "0", "to_state": "skipend", "write": "0", "action": "RIGHT"},
+      { "read" : ".", "to_state": "HALT", "write": "y", "action": "RIGHT"}
+    ],
+    "only1": [
+    	{ "read" : "1", "to_state": "only1", "write": "1", "action": "RIGHT"},
+      { "read" : "0", "to_state": "nextafter1", "write": "0", "action": "RIGHT"},
+      { "read" : ".", "to_state": "HALT", "write": "n", "action": "RIGHT"}
+    ],
+    "nextafter1": [
+      { "read" : "0", "to_state": "nextafter1", "write": "0", "action": "RIGHT"},
+      { "read" : "1", "to_state": "skipend", "write": "1", "action": "RIGHT"},
+      { "read" : ".", "to_state": "HALT", "write": "y", "action": "RIGHT"}
+    ],
 		"skipend" : [
 			{ "read" : "1", "to_state": "skipend", "write": "1", "action": "RIGHT"},
 			{ "read" : "0", "to_state": "skipend", "write": "0", "action": "RIGHT"},

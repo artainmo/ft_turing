@@ -11,16 +11,16 @@
 			{ "read" : ".", "to_state": "scanright", "write": ".", "action": "RIGHT"},
 			{ "read" : "0", "to_state": "double", "write": "0", "action": "RIGHT"}
 		],
-        "double": [
-            { "read" : "0", "to_state": "checknext", "write": "0", "action": "RIGHT"},
-            { "read" : ".", "to_state": "HALT", "write": "n", "action": "RIGHT"}
-        ],
-        "checknext": [
-            { "read" : "0", "to_state": "oneback", "write": "0", "action": "LEFT"},
-            { "read" : ".", "to_state": "HALT", "write": "y", "action": "RIGHT"}
-        ],
-        "oneback": [
-            { "read" : "0", "to_state": "scanright", "write": "0", "action": "RIGHT"}
-        ]
+    "double": [
+    	{ "read" : "0", "to_state": "checknext", "write": "0", "action": "RIGHT"},
+      { "read" : ".", "to_state": "HALT", "write": "n", "action": "RIGHT"}
+    ],
+    "checknext": [
+    	{ "read" : "0", "to_state": "oneback", "write": "0", "action": "LEFT"},
+      { "read" : ".", "to_state": "HALT", "write": "y", "action": "RIGHT"}
+    ],
+    "oneback": [
+    	{ "read" : "0", "to_state": "scanright", "write": "0", "action": "RIGHT"}
+  	]
 	}
 }
