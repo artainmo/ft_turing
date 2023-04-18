@@ -18,6 +18,10 @@ To clean and compile back use `make re` or `make re_opt`.
 2. ./ft_turing machines/unary_add.json "11+11111=" (should equal "1111111")
 3. ./ft_turing machines/palindrome_or_not.json 11011 (should equal "y")
 4. ./ft_turing machines/palindrome_or_not.json 1011 (should equal "n")
+5. ./ft_turing machines/0n1n.json 000111 (should equal "y")
+6. ./ft_turing machines/0n1n.json 000 (should equal "n")
+7. ./ft_turing machines/02n.json 0000 (should equal "y")
+7. ./ft_turing machines/02n.json 0 (should equal "n")
 
 ## Documentation
 [artainmo - OCaml](https://github.com/artainmo/general-programming/tree/main/languages/OCaml)<br>
